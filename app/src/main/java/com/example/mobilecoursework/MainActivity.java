@@ -1,18 +1,28 @@
 package com.example.mobilecoursework;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.mobilecoursework.database.MyDatabaseHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     RecyclerView recycleView;
     FloatingActionButton add_button;
+
+    MyDatabaseHelper myDB;
+    ArrayList<String> _id,text_name, text_destination, text_date, text_risk;
+    CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +38,34 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        myDB = new MyDatabaseHelper(MainActivity.this);
+        _id = new ArrayList<>();
+        text_name = new ArrayList<>();
+        text_destination = new ArrayList<>();
+        text_date = new ArrayList<>();
+        text_risk = new ArrayList<>();
+
+        storeDataInArray();
+
+        customAdapter = new CustomAdapter(MainActivity.this,_id, text_name, text_destination, text_date, text_risk);
+        recycleView.setAdapter(customAdapter);
+        recycleView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+    }
+
+    void storeDataInArray(){
+        Cursor cursor =myDB.readAllData();
+        if( cursor.getCount()==0 ){
+            Toast.makeText(this, "No data.", Toast.LENGTH_SHORT).show();
+        }else{
+            while(cursor.moveToNext()){
+                _id.add(cursor.getString(0));
+                text_name.add(cursor.getString(1));
+                text_destination.add(cursor.getString(2));
+                text_date.add(cursor.getString(3));
+                text_risk.add(cursor.getString(4));
+
+            }
+        }
     }
 }

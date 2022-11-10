@@ -67,13 +67,15 @@ public class AddActivity extends AppCompatActivity {
                 }else if(TextUtils.isEmpty(text_date.getText().toString())){
                     text_date.setError("Please enter Date of Trip!");
                 }else{
-                    //If all field has value -> Insert Value to getInputs
+                    getInputs();
+
+                    //Insert Value to Database
                     myDB.add_trip(text_name.getText().toString().trim(),
                             text_destination.getText().toString().trim(),
                             text_date.getText().toString().trim(),
                             radioText2.toString().trim(),
                             text_description.getText().toString().trim());
-                    getInputs();
+
                 }
             }
         });

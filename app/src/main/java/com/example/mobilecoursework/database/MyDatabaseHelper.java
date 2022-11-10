@@ -2,6 +2,7 @@ package com.example.mobilecoursework.database;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
@@ -40,22 +41,27 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-    public void add_trip(String name, String destination, String description, String risk, String date){
+    public void add_trip(String name, String destination, String date, String risk, String description){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
 
         cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_DESTINATION, destination);
         cv.put(COLUMN_DATE, date);
         cv.put(COLUMN_RISK, risk);
-        cv.put(COLUMN_DESTINATION, destination);
         cv.put(COLUMN_DESCRIPTION, description);
         long result = db.insert(TABLE_NAME, null, cv);
-/*        if (result == -1){
-            Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(context, "Added Successfully!", Toast.LENGTH_SHORT).show();
-        }*/
+    }
 
+    public Cursor readAllData(){
+        String query = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = null;
+        if(db!= null){
+            cursor =db.rawQuery(query,null);
+        }
+        return cursor;
     }
 
 }
