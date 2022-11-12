@@ -1,9 +1,13 @@
 package com.example.mobilecoursework;
 
+
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,15 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHolder> {
-
     private Context context;
     private ArrayList _id, text_name, text_destination, text_date, text_risk;
+    int position;
+
     CustomAdapter(Context context,
-                  ArrayList _id,
-                  ArrayList text_name,
-                  ArrayList text_destination,
-                  ArrayList text_date,
-                  ArrayList text_risk){
+                  ArrayList<String> _id,
+                  ArrayList<String> text_name,
+                  ArrayList<String> text_destination,
+                  ArrayList<String> text_date,
+                  ArrayList<String> text_risk){
 
         this.context = context;
         this._id = _id;
@@ -40,12 +45,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+        this.position = position;
         holder._id_txt.setText(String.valueOf(_id.get(position)));
         holder.name_txt.setText(String.valueOf(text_name.get(position)));
         holder.destination_txt.setText(String.valueOf(text_destination.get(position)));
         holder.date_txt.setText(String.valueOf(text_date.get(position)));
         holder.risk_txt.setText(String.valueOf(text_risk.get(position)));
+        //UpdateFunction
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UpdateActivity.class);
+                intent.putExtra("id",String.valueOf(_id.get(position)));
+                intent.putExtra("name",String.valueOf(text_name.get(position)));
+                intent.putExtra("destination",String.valueOf(text_destination.get(position)));
+                intent.putExtra("date",String.valueOf(text_date.get(position)));
+                intent.putExtra("risk",String.valueOf(text_risk.get(position)));
+                context.startActivity(intent);
+
+            }
+        });
+
     }
 
     @Override
@@ -53,17 +74,20 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.MyViewHold
         return _id.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView _id_txt, name_txt, destination_txt, date_txt, risk_txt;
+        LinearLayout mainLayout;
 
-        public MyViewHolder(@NonNull View itemView) {
+         MyViewHolder(@NonNull View itemView) {
             super(itemView);
             _id_txt =itemView.findViewById(R.id._id_txt);
             name_txt =itemView.findViewById(R.id.name_txt);
             destination_txt =itemView.findViewById(R.id.destination_txt);
             date_txt =itemView.findViewById(R.id.date_txt);
             risk_txt =itemView.findViewById(R.id.risk_txt);
+            mainLayout = itemView.findViewById(R.id.mainLayout);
         }
     }
 }
+

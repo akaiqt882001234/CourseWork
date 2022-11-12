@@ -20,12 +20,9 @@ import com.example.mobilecoursework.database.MyDatabaseHelper;
 public class AddActivity extends AppCompatActivity {
 
     SQLiteDatabase sqLiteDatabase;
-    EditText text_name,text_destination,text_date,text_description;
+    EditText text_name,text_destination,text_date,text_description,text_risk;
     Button add_button;
-    RadioGroup radioGroup;
-    RadioButton radioNo,radioYes,radioButton;
-    String radioText2 = "No";
-    Boolean isAllFieldChecked = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,26 +31,10 @@ public class AddActivity extends AppCompatActivity {
         text_name = findViewById(R.id.text_name);
         text_destination = findViewById(R.id.text_destination);
         text_date = findViewById(R.id.text_date);
-        radioYes = findViewById(R.id.radioYes);
-        radioNo = findViewById(R.id.radioNo);
-        radioGroup = findViewById(R.id.radioGroup);
+        text_risk = findViewById(R.id.text_risk);
+
         text_description = findViewById(R.id.text_description);
         add_button = findViewById(R.id.add_button);
-
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, int checkedId) {
-                RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());
-                radioText2 = radioButton.getText().toString();
-                // Change Value RadioButton to Yes (No Button is always Auto Selected)
-                ContentValues contentValues = new ContentValues();
-                if(radioYes.isChecked()){
-                    contentValues.put("Yes",radioYes.getText().toString());
-                }
-            }
-        });
-
-
         add_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -73,7 +54,7 @@ public class AddActivity extends AppCompatActivity {
                     myDB.add_trip(text_name.getText().toString().trim(),
                             text_destination.getText().toString().trim(),
                             text_date.getText().toString().trim(),
-                            radioText2.toString().trim(),
+                            text_risk.getText().toString().trim(),
                             text_description.getText().toString().trim());
 
                 }
@@ -87,18 +68,18 @@ public class AddActivity extends AppCompatActivity {
         String strTripName = text_name.getText().toString();
         String strDestination = text_destination.getText().toString();
         String strDate = text_date.getText().toString();
-        String radioBt = radioText2.toString();
+        String strRisk = text_risk.getText().toString();
         String strDescription = text_description.getText().toString();
 
-        displayNextAlert(strTripName, strDestination, strDate, radioBt,strDescription);
+        displayNextAlert(strTripName, strDestination, strDate, strRisk,strDescription);
 
     }
     // Display Alert Message and Close button
-    private void displayNextAlert(String strTripName, String strDestination, String strDate, String radioBt, String strDescription) {
+    private void displayNextAlert(String strTripName, String strDestination, String strDate, String strRisk, String strDescription) {
         new AlertDialog.Builder(this).setMessage("Your Trip Information: " +
                         "\n Trip name: " + strTripName +
                         "\n Destination: " + strDestination +
-                        "\n Risk Assessment: " + radioBt +
+                        "\n Risk Assessment: " + strRisk +
                         "\n Date: " + strDate +
                         "\n Description: " + strDescription
                 )
@@ -110,8 +91,6 @@ public class AddActivity extends AppCompatActivity {
                         finish();
                     }
                 }).show();
-
-
     }
 
 }
