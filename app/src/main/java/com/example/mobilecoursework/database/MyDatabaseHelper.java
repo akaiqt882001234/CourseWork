@@ -5,10 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
-import android.widget.Button;
-
-import androidx.annotation.Nullable;
 
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
@@ -90,7 +86,30 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
         }
         return cursor;
     }
+// UpdateData by ID
+    public boolean updateData(String id, String name, String destination, String date, String risk, String description){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_ID, id);
+        cv.put(COLUMN_NAME, name);
+        cv.put(COLUMN_DESTINATION, destination);
+        cv.put(COLUMN_DATE, date);
+        cv.put(COLUMN_RISK, risk);
+        cv.put(COLUMN_DESCRIPTION, description);
+        db.update(TABLE_NAME, cv,"_id = ?",new String[] {id});
+        return true;
+    }
 
+// DeleteData by ID
+    public Integer deleteData(String id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        return db.delete(TABLE_NAME,"_id = ?",new String[]{id});
+    }
+
+    public void deleteAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("DELETE FROM "+ TABLE_NAME);
+    }
 
     //Create ExpensesActivity Database
     public void add_detail(String type, String amount, String time){

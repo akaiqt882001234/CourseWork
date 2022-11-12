@@ -12,12 +12,11 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
         android:text="Name of Trip *"
         android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="@+id/text_name2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/text_ID" />
 
     <EditText
         android:id="@+id/text_name2"
@@ -120,27 +119,50 @@
         app:layout_constraintStart_toStartOf="@+id/update_button"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
+    <EditText
+        android:id="@+id/text_ID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="ID"
+        android:minHeight="48dp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="-7dp" />
+
     <Button
         android:id="@+id/update_button"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_marginTop="12dp"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
         android:text="UPDATE"
         android:textAllCaps="false"
-        android:textSize="20dp"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="15dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_description2" />
+
+    <Button
+        android:id="@+id/delete_button"
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="4dp"
+        android:text="DELETE"
+        android:textAllCaps="false"
+        android:textSize="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/update_button"
         app:layout_constraintTop_toBottomOf="@+id/text_description2" />
 
     <Button
         android:id="@+id/expense_button"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_marginTop="0dp"
+        android:layout_marginTop="4dp"
         android:text="SEE ALL EXPENSES"
         android:textAllCaps="false"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/update_button" />
 
